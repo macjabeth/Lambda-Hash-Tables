@@ -1,7 +1,10 @@
+from doubly_linked_list import DoublyLinkedList
 
 # '''
 # Basic hash table key/value pair
 # '''
+
+
 class Pair:
     def __init__(self, key, value):
         self.key = key
@@ -37,8 +40,8 @@ def hash(string, max):
 def hash_table_insert(hash_table, key, value):
     address = hash(key, hash_table.capacity)
     if hash_table.storage[address] is None:
-        hash_table.storage[address] = []
-    hash_table.storage[address].append(Pair(key, value))
+        hash_table.storage[address] = DoublyLinkedList()
+    hash_table.storage[address].add_to_head(Pair(key, value))
 
 # '''
 # Fill this in.
@@ -53,29 +56,24 @@ def hash_table_remove(hash_table, key):
     if current_bucket is None:
         print("You can't remove a value that doesn't exist, friend.")
     else:
-        removed = False
-        for i, v in enumerate(current_bucket):
-            if v.key == key:
-                del current_bucket[i]
-                removed = True
-                break
-        if not removed:
-            print('No joy.')
-
+        current_bucket.find_and_delete_key(key)
 
 # '''
 # Fill this in.
 
 # Should return None if the key is not found.
 # '''
+
+
 def hash_table_retrieve(hash_table, key):
     address = hash(key, hash_table.capacity)
     current_bucket = hash_table.storage[address]
     if current_bucket is None:
         return None
-    for v in current_bucket:
-        if v.key == key:
-            return v.value
+    current_node = current_bucket.head
+    while current_node:
+        if current_node.value.key == key:
+            return current_node.value.value
     return None
 
 
