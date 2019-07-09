@@ -129,11 +129,10 @@ class DoublyLinkedList:
         value = node.value
         if node is self.head:
             self.remove_from_head()
-            self.add_to_tail(value)
         else:
             node.delete()
             self.length -= 1
-            self.add_to_tail(value)
+        self.add_to_tail(value)
 
     def delete(self, node):
         self.length -= 1
@@ -161,6 +160,30 @@ class DoublyLinkedList:
                 max_val = current.value
             current = current.next
         return max_val
+
+    # Finds and deletes the first instance of a given value
+    def find_and_delete_key(self, key):
+        current = self.head
+        while current:
+            if current.value.key == key:
+                self.delete(current)
+                return
+            current = current.next
+
+        # Print an error if key not found
+        print("Error, " + str(key) + " not found")
+
+    # Finds and deletes the first instance of a given value
+    def find_and_delete_value(self, value):
+        current = self.head
+        while current:
+            if current.value.value == value:
+                self.delete(current)
+                return
+            current = current.next
+
+        # Print an error if value not found
+        print("Error, " + str(value) + " not found")
 
     # Finds and deletes the first instance of a given value
     def find_and_delete(self, value):
