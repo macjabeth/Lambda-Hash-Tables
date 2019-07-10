@@ -77,6 +77,22 @@ def hash_table_retrieve(hash_table, key):
     return None
 
 
+def hash_table_resize(hash_table):
+    new_hash = BasicHashTable(hash_table.capacity * 2)
+
+    # Copy over elements
+    for dll in hash_table.storage:
+        if dll is not None:
+            current_node = dll.head
+            while current_node:
+                hash_table_insert(current_node.value.key,
+                                  current_node.value.value)
+                current_node = current_node.next
+
+    hash_table.storage = new_hash.storage
+    hash_table.capacity = new_hash.capacity
+
+
 def Testing():
     ht = BasicHashTable(16)
 
@@ -84,10 +100,11 @@ def Testing():
 
     hash_table_remove(ht, "line")
 
-    if hash_table_retrieve(ht, "line") is None:
-        print("...gone tomorrow (success!)")
-    else:
-        print("ERROR:  STILL HERE")
+    # if hash_table_retrieve(ht, "line") is None:
+    #     print("...gone tomorrow (success!)")
+    # else:
+    #     print("ERROR:  STILL HERE")
+    hash_table_resize(ht)
 
 
 Testing()
